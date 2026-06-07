@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package agennext.services.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/AGenNext/Agent-Services/gen/go/agennext/services/v1;servicesv1";
+
+enum ServiceStatus {
+  SERVICE_STATUS_UNSPECIFIED = 0;
+  SERVICE_STATUS_DRAFT = 1;
+  SERVICE_STATUS_PROPOSED = 2;
+  SERVICE_STATUS_APPROVED = 3;
+  SERVICE_STATUS_ACTIVE = 4;
+  SERVICE_STATUS_DEGRADED = 5;
+  SERVICE_STATUS_FROZEN = 6;
+  SERVICE_STATUS_RETIRED = 7;
+  SERVICE_STATUS_ARCHIVED = 8;
+}
+
+enum ServiceKind {
+  SERVICE_KIND_UNSPECIFIED = 0;
+  SERVICE_KIND_API = 1;
+  SERVICE_KIND_MCP = 2;
+  SERVICE_KIND_WORKER = 3;
+  SERVICE_KIND_OPERATOR = 4;
+  SERVICE_KIND_SUPPORT = 5;
+  SERVICE_KIND_INTEGRATION = 6;
+}
+
+message Service {
+  string id = 1;
+  string name = 2;
+  ServiceKind kind = 3;
+  string owner = 4;
+  string boundary_id = 5;
+  repeated string capabilities = 6;
+  repeated string inputs = 7;
+  repeated string outputs = 8;
+  repeated string constraints = 9;
+  repeated string evidence_refs = 10;
+  ServiceStatus status = 11;
+  google.protobuf.Timestamp registered_at = 12;
+}
+
+message ServiceEndpoint {
+  string id = 1;
+  string service_id = 2;
+  string uri = 3;
+  repeated string allowed_verbs = 4;
+  repeated string constraints = 5;
+  ServiceStatus status = 6;
+}
+
+message ServiceCommitment {
+  string id = 1;
+  string service_id = 2;
+  string scope = 3;
+  repeated string obligations = 4;
+  repeated string evidence_requirements = 5;
+  ServiceStatus status = 6;
+}
